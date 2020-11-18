@@ -2,12 +2,14 @@ import React, { useContext } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Context } from '../context/CardsContext';
 import CardForm from '../components/CardForm';
+import cardsApi from '../api/cardsApi';
 
 const CardCreateScreen = ({ navigation }) => {
   const { dispatch } = useContext(Context);
 
-  const addPerson = (person, navigateCallback) => {
-    dispatch({type: 'add_person', payload: person});
+  const addPerson = async (person, navigateCallback) => {
+    await cardsApi.post('/cards', { ...person });
+    // dispatch({type: 'add_person', payload: person});
     navigateCallback();
   };
 

@@ -3,7 +3,7 @@ import { Text, StyleSheet, View, TouchableOpacity } from 'react-native';
 import { Card } from 'react-native-elements';
 import { FontAwesome, AntDesign } from '@expo/vector-icons'; 
 
-const CardDetail = ({id, firstName, lastName, age, color, onChangeData, onDeleteData}) => {
+const CardDetail = ({id, firstName, lastName, age, color, onDeleteData}) => {
   const [ isOverlayVisible, setOverlayVisibility ] = useState(false);
   const [ overlayData, setOverlayData ] = useState({
     firstName,

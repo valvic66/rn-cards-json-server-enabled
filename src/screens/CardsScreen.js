@@ -1,12 +1,14 @@
-import React, { useEffect, useContext } from "react";
-import { Text, StyleSheet, View, FlatList, TouchableOpacity } from "react-native";
+import React, { useEffect, useContext, useState } from "react";
+import { Text, StyleSheet, View, FlatList, TouchableOpacity, ActivityIndicator } from "react-native";
 import CardDetail from "../components/CardDetail";
 import { Context } from '../context/CardsContext';
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import cardsApi from '../api/cardsApi';
+import { removeAllListeners } from "expo/build/AR";
 
 const CardsScreen = ({ navigation }) => {
   const { state, dispatch } = useContext(Context);
+  const [loading, setLoadingState] = useState(true);
 
   const deletePerson = id => {
     dispatch({
@@ -20,6 +22,7 @@ const CardsScreen = ({ navigation }) => {
   const getCards = async () => {
     try {
       const response = await cardsApi.get('/cards');
+      setLoadingState(false);
       
       dispatch({type: 'get_cards', payload: response.data});
     } catch(error) {
@@ -29,7 +32,18 @@ const CardsScreen = ({ navigation }) => {
 
   useEffect(() => {
     getCards();
+    const listener = navigation.addListener('didFocus', () => {
+      getCards();
+    });
+
+    return () => {
+      listener.remove();
+    };
   }, []);
+
+  if(loading) {
+    return <ActivityIndicator size='large' animating={true} style={styles.activityIndicatorStyle} />;
+  };
 
   return (
     <View style={{flex: 1}}>
@@ -140,6 +154,9 @@ const styles = StyleSheet.create({
   headerRightIconStyle: {
     marginRight: 10,
     padding: 5
+  },
+  activityIndicatorStyle: {
+    flex: 1
   }
 });
 

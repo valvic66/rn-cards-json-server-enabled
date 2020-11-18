@@ -37,7 +37,7 @@ const CardForm = ({ title, onSubmit, initialPersonData }) => {
         />
       <Text style={styles.inputLabelStyle}>Prefered color</Text>
       <TextInput
-        placeholder="Color"
+        placeholder="Enter color as red or #f00"
         style={styles.textInputStyle}
         onChangeText={(value) => setPersonData(value, 'color')}
         value={person.color}
