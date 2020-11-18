@@ -16,7 +16,9 @@ const CardEditScreen = ({ navigation }) => {
       age: person.age,
       color: person.color
     }});
-    navigateCallback();
+    if(navigateCallback) {
+      navigateCallback();
+    }
   };
 
   return (

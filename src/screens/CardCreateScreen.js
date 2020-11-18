@@ -9,8 +9,10 @@ const CardCreateScreen = ({ navigation }) => {
 
   const addPerson = async (person, navigateCallback) => {
     await cardsApi.post('/cards', { ...person });
-    // dispatch({type: 'add_person', payload: person});
-    navigateCallback();
+
+    if(navigateCallback) {
+      navigateCallback();
+    }
   };
 
   return (
