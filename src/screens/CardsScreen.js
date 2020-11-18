@@ -4,19 +4,22 @@ import CardDetail from "../components/CardDetail";
 import { Context } from '../context/CardsContext';
 import { FontAwesome, AntDesign } from '@expo/vector-icons';
 import cardsApi from '../api/cardsApi';
-import { removeAllListeners } from "expo/build/AR";
 
 const CardsScreen = ({ navigation }) => {
   const { state, dispatch } = useContext(Context);
   const [loading, setLoadingState] = useState(true);
 
-  const deletePerson = id => {
-    dispatch({
-      type: 'delete_person',
-      payload: {
-        deletePersonId: id.toString()
-      }
-    });
+  const deletePerson = async id => {
+    try {
+      await cardsApi.delete(`/cards/${id}`);
+
+      dispatch({
+        type: 'delete_person',
+        payload: id
+      });
+    } catch(err) {
+      console.error(error);
+    }
   };
 
   const getCards = async () => {

@@ -8,7 +8,11 @@ const CardCreateScreen = ({ navigation }) => {
   const { dispatch } = useContext(Context);
 
   const addPerson = async (person, navigateCallback) => {
-    await cardsApi.post('/cards', { ...person });
+    try {
+      await cardsApi.post('/cards', { ...person });
+    } catch(err) {
+      console.error(error);
+    }
 
     if(navigateCallback) {
       navigateCallback();
